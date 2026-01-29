@@ -1,16 +1,38 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures/pages';
+import { TrialCenterPage } from '../pages/trial-center-page';
 
-test('Add Item to cart and then validate cart value', { tag: '@cart' }, async ({ page }) => {
-  await page.goto(process.env.SAP_URL!);
-  await page.getByRole('textbox', { name: 'Email, User ID or Login Name' }).click();
-  await page.getByRole('textbox', { name: 'Email, User ID or Login Name' }).fill(process.env.SAP_EMAIL!);
-  await page.getByRole('button', { name: 'Continue' }).click();
-  await page.getByRole('textbox', { name: 'Password' }).click();
-  await page.getByRole('textbox', { name: 'Password' }).fill(process.env.SAP_PASSWORD!);
-  await page.getByRole('button', { name: 'Continue' }).click();
-  await page.waitForLoadState('networkidle');
-  await page.getByRoleUI5('IconTabFilter', { text: ' Trial Center' }).click();
-  await expect(page.locateUI5('//VizInstanceCdm[1]/ComponentContainer[1]/XMLView[1]/GenericTile[1]/Text[1]')).toContainText('Introduction');
-  await expect(page.locateUI5('//VizInstanceCdm[2]/ComponentContainer[1]/XMLView[1]/GenericTile[1]/Text[1]')).toContainText('Guided Tours');
-  await expect(page.locateUI5('//VizInstanceCdm[3]/ComponentContainer[1]/XMLView[1]/GenericTile[1]/Text[1]')).toContainText('Trial Information');
+test('Test Login for SAP 4 Hana', { tag: '@Login' }, async ({ loginPage, homePage }) => {
+
+  await test.step('Login to SAP', async () => {
+    await loginPage.login();
+  });
+
+  await test.step('Close the tour', async () => {
+    await homePage.closeTour();
+  });
+
+  await test.step('Verify I am successfully logged in to SAP and I can see the SAP Logo', async () => {
+    await expect(homePage.sapLogo).toBeVisible();
+  });
+});
+
+
+test('Validate Trial Center Cards', { tag: '@Trial-Center' }, async ({ loginPage, homePage, navigationHeader, trialCenterPage }) => {
+
+  await test.step('Login to SAP', async () => {
+    await loginPage.login();
+    await homePage.closeTour();
+    await expect(homePage.sapLogo).toBeVisible();
+  });
+
+  await test.step('Navigate to Trial Center from the Navigation Header', async () => {
+    await navigationHeader.navigateToPage('Trial Center');
+  });
+
+  await test.step('Verify that Introduction, Guided Tours and Trial Information Tiles are visible', async () => {
+    await expect(trialCenterPage.introductionTile).toContainText('Introduction');
+    await expect(trialCenterPage.guidedToursTile).toContainText('Guided Tours');
+    await expect(trialCenterPage.trialInformationTile).toContainText('Trial Information');
+  });
+  
 });
