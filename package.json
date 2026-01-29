@@ -15,6 +15,7 @@
   "devDependencies": {
     "@playwright/test": "npm:@playwright-sap/test@^1.1.6",
     "@types/node": "^24.2.0",
+    "dotenv": "^17.2.3",
     "typescript": "^5.7.0"
   }
 }
