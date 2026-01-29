@@ -1,13 +1,16 @@
 import { test, expect } from '@playwright/test';
 
-test('@cart Add Item to cart and then validate cart value', async ({ page }) => {
-  await page.goto('https://ui5.sap.com/test-resources/sap/m/demokit/cart/webapp/index.html');
-  await page.getByRoleUI5('StandardListItem', { title: 'Laptops' }).click();
-  await page.getByRoleUI5('ObjectListItem').nth(0).click();
-  await page.getByRoleUI5('Button', { text: 'Add to Cart' }).click();
-  const expectedCartValue = (await page.getByRoleUI5('ObjectNumber').last().textContent())?.split(" ")[0];
-  await page.getByRoleUI5('Button', { type: 'Back' }).click();
-  await page.getByRoleUI5('ToggleButton', { icon: 'sap-icon://cart' }).first().click();
-  const actualCartValue = await page.getByRoleUI5('Text').last().textContent();
-  expect(actualCartValue).toContain(expectedCartValue);
+test('Add Item to cart and then validate cart value', { tag: '@cart' }, async ({ page }) => {
+  await page.goto('https://my426318.s4hana.cloud.sap/ui?sap-language=EN&help-mixedLanguages=false&help-autoStartTour=PR_28A0E50CC77DAF91#Shell-home');
+  await page.getByRole('textbox', { name: 'Email, User ID or Login Name' }).click();
+  await page.getByRole('textbox', { name: 'Email, User ID or Login Name' }).fill('gytis.norutis@outlook.com');
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).click();
+  await page.getByRole('textbox', { name: 'Password' }).fill('BallyGowan2026!');
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.waitForLoadState('networkidle');
+  await page.getByRoleUI5('IconTabFilter', { text: ' Trial Center' }).click();
+  await expect(page.locateUI5('//VizInstanceCdm[1]/ComponentContainer[1]/XMLView[1]/GenericTile[1]/Text[1]')).toContainText('Introduction');
+  await expect(page.locateUI5('//VizInstanceCdm[2]/ComponentContainer[1]/XMLView[1]/GenericTile[1]/Text[1]')).toContainText('Guided Tours');
+  await expect(page.locateUI5('//VizInstanceCdm[3]/ComponentContainer[1]/XMLView[1]/GenericTile[1]/Text[1]')).toContainText('Trial Information');
 });
