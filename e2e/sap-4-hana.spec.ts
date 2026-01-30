@@ -1,6 +1,6 @@
 import { test, expect } from '../fixtures/pages';
 
-test('Test Login for SAP 4 Hana', { tag: '@Login' }, async ({ loginPage, homePage }) => {
+test('Test Login for SAP 4 Hana', { tag: ['@SAP', '@Login'] }, async ({ loginPage, homePage }) => {
 
   await test.step('Login to SAP', async () => {
     await loginPage.login();
@@ -15,7 +15,7 @@ test('Test Login for SAP 4 Hana', { tag: '@Login' }, async ({ loginPage, homePag
   });
 });
 
-test('Validate Home Page Tiles', { tag: '@Home-Page' }, async ({ loginPage, homePage, navigationHeader, trialCenterPage }) => {
+test('Validate Home Page Tiles', { tag: ['@SAP', '@Home-Page'] }, async ({ loginPage, homePage, navigationHeader, trialCenterPage }) => {
 
   await test.step('Login to SAP', async () => {
     await loginPage.login();
@@ -32,7 +32,7 @@ test('Validate Home Page Tiles', { tag: '@Home-Page' }, async ({ loginPage, home
 });
 
 
-test('Validate Trial Center Cards', { tag: '@Trial-Center' }, async ({ loginPage, homePage, navigationHeader, trialCenterPage }) => {
+test('Validate Trial Center Cards', { tag: ['@SAP', '@Trial-Center'] }, async ({ loginPage, homePage, navigationHeader, trialCenterPage }) => {
 
   await test.step('Login to SAP', async () => {
     await loginPage.login();

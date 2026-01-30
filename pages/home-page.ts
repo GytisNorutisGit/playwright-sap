@@ -18,7 +18,7 @@ export class HomePage extends BasePage {
   }
 
   async closeTour() {
-    await expect(this.page.getByRole('button', { name: 'Leave Tour' })).toBeVisible({ timeout: 15000 });
+    await expect(this.page.getByRole('button', { name: 'Leave Tour' })).toBeVisible({ timeout: 30000 });
     await this.page.getByRole('button', { name: 'Leave Tour' }).click();
   }
 }
