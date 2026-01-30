@@ -1,5 +1,4 @@
 import { test, expect } from '../fixtures/pages';
-import { TrialCenterPage } from '../pages/trial-center-page';
 
 test('Test Login for SAP 4 Hana', { tag: '@Login' }, async ({ loginPage, homePage }) => {
 
@@ -13,6 +12,22 @@ test('Test Login for SAP 4 Hana', { tag: '@Login' }, async ({ loginPage, homePag
 
   await test.step('Verify I am successfully logged in to SAP and I can see the SAP Logo', async () => {
     await expect(homePage.sapLogo).toBeVisible();
+  });
+});
+
+test('Validate Home Page Tiles', { tag: '@Home-Page' }, async ({ loginPage, homePage, navigationHeader, trialCenterPage }) => {
+
+  await test.step('Login to SAP', async () => {
+    await loginPage.login();
+    await homePage.closeTour();
+    await expect(homePage.sapLogo).toBeVisible();
+  });
+
+  await test.step('Verify Home Page Tiles are correct', async () => {
+    await expect(homePage.overviewTile).toContainText('Overview');
+    await expect(homePage.financeTile).toContainText('Finance');
+    await expect(homePage.ManufacturingandSupplyChainTile).toContainText('Manufacturing and Supply Chain');
+    await expect(homePage.procurementTile).toContainText('Procurement');
   });
 });
 
